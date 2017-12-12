@@ -16,7 +16,7 @@ import math
 current_directory = os.getcwd()
 dir_list = next(os.walk('.'))[1]
 
-os.chdir(dir_list[4])
+os.chdir(dir_list[2])
 files_xls  = glob.glob('*.xls')
 data_pcp = pd.read_excel(files_xls[0])
 pcp_filenames = data_pcp.iloc[:,1]
@@ -28,10 +28,10 @@ for i in range(0, len(pcp_filenames)):
     data = open(pcp_filenames[i]+'.txt')
 
     try:
-        precipitation = np.loadtxt(data, delimiter = ',', skiprows = 1)
-        missing_data_counts = sum(precipitation == -999.0)
+        temperature = np.loadtxt(data, delimiter = ',', skiprows = 1)
+        missing_data_counts = sum(temperature == -99.0)
         print(pcp_filenames[i], missing_data_counts[0])
-        if missing_data_counts[0] == 0 :
+        if missing_data_counts[0] < int(.01 * len(temperature)) :
             pcp_location[i][2] = 1
         else:
             pass
